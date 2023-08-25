@@ -10,4 +10,4 @@ userRouter.post("/", async function (req, res) {
   }
 });
 
-module.export = userRouter;
+module.exports = userRouter;
