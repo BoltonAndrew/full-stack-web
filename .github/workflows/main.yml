@@ -47,9 +47,9 @@ jobs:
       - name: Trigger front-end rebuild on Render
         run: |
           curl -X GET \
-          https://api.render.com/deploy/srv-your-service-number?key=your-key
+          https://api.render.com/deploy/srv-cjk81rj37aks73fhf4e0?key=20zJkch9FLE
 
       - name: Trigger back-end rebuild on Render
         run: |
           curl -X GET \
-          https://api.render.com/deploy/srv-your-service-number?key=your-key
+          https://api.render.com/deploy/srv-cjk82h337aks73fhin60?key=jugYJeOGi5o
