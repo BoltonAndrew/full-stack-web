@@ -1,0 +1,55 @@
+name: Build and Push Docker Images, then Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Convert repo info to lowercase
+        run: |
+          echo "REPO_OWNER=$(echo ${{ github.repository_owner }} | tr 'A-Z' 'a-z')" >> $GITHU_ENV
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push front-end Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./front-end
+          file: ./front-end/Dockerfile
+          push: true
+          tags: gchr.io/${{ env.REPO_OWNER }}/front-end:latest
+          build-args: VITE_API=${{ secrets.VITE_API }}
+
+      - name: Build and push back-end Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./back-end
+          file: ./back-end/Dockerfile
+          push: true
+          tags: gchr.io/${{ env.REPO_OWNER }}/back-end:latest
+
+      - name: Trigger front-end rebuild on Render
+        run: |
+          curl -X GET \
+          https://api.render.com/deploy/srv-your-service-number?key=your-key
+
+      - name: Trigger back-end rebuild on Render
+        run: |
+          curl -X GET \
+          https://api.render.com/deploy/srv-your-service-number?key=your-key
