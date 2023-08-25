@@ -33,7 +33,7 @@ jobs:
           context: ./front-end
           file: ./front-end/Dockerfile
           push: true
-          tags: gchr.io/${{ env.REPO_OWNER }}/front-end:latest
+          tags: ghcr.io/${{ env.REPO_OWNER }}/front-end:latest
           build-args: VITE_API=${{ secrets.VITE_API }}
 
       - name: Build and push back-end Docker image
@@ -42,7 +42,7 @@ jobs:
           context: ./back-end
           file: ./back-end/Dockerfile
           push: true
-          tags: gchr.io/${{ env.REPO_OWNER }}/back-end:latest
+          tags: ghcr.io/${{ env.REPO_OWNER }}/back-end:latest
 
       - name: Trigger front-end rebuild on Render
         run: |
