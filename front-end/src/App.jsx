@@ -27,6 +27,7 @@ function App() {
   return (
     <div className="App">
       <h1>{user ? user.username : "No User"}</h1>
+      <h2>This is finally the correct repo</h2>
       <form onSubmit={submitHandler}>
         <input
           onChange={(e) => setUsername(e.target.value)}
